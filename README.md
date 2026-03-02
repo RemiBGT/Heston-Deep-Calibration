@@ -11,7 +11,7 @@ The core idea is straightforward:
 - train a neural network to approximate that pricing map,
 - and reuse the neural surrogate inside calibration to reduce latency dramatically.
 
-The project is intentionally built as a compact, publishable example of modern quantitative engineering: clear numerical modeling, measurable performance gains, and code structured for maintainability.
+
 
 ## The Industrial Problem
 
