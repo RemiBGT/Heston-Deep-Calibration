@@ -11,13 +11,9 @@ Training observations: 10800
 Test observations: 2700
 Hold-out NN RMSE: 0.15039548
 
-<<<<<<< HEAD
 True parameters      : v0=0.0450, kappa=2.2500, theta=0.0350, rho=-0.7000, sigma=0.3500
 Exact calibration    : v0=0.0372, kappa=1.8701, theta=0.0463, rho=-0.5341, sigma=0.4162
 NN calibration       : v0=0.0367, kappa=1.8789, theta=0.0446, rho=-0.4874, sigma=0.4083
-=======
-
->>>>>>> 8de14f79fbf1eb4171ce04d42a19dc9114c86096
 
 Exact solver time    : 18.778020 seconds
 NN solver time       : 0.120576 seconds
@@ -95,7 +91,7 @@ The exact European call price can be recovered semi-analytically by Fourier inve
 
 $$
 C(F,K,T) = F - \frac{\sqrt{FK}}{\pi}\int_{0}^{+\infty}
-\operatorname{Re}\left(
+\mathrm{Re}\!\left(
 \frac{\phi_H\left(u-\frac{i}{2}\right)}{u^2 + \frac{1}{4}}
 \right)\,du
 $$
