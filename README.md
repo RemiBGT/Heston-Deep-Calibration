@@ -15,6 +15,7 @@ True parameters      : v0=0.0450, kappa=2.2500, theta=0.0350, rho=-0.7000, sigma
 Exact calibration    : v0=0.0372, kappa=1.8701, theta=0.0463, rho=-0.5341, sigma=0.4162
 NN calibration       : v0=0.0367, kappa=1.8789, theta=0.0446, rho=-0.4874, sigma=0.4083
 
+
 Exact solver time    : 18.778020 seconds
 NN solver time       : 0.120576 seconds
 Acceleration         : x155.74
@@ -69,36 +70,25 @@ In this implementation, the exact call price is computed through Fourier inversi
 
 This creates a familiar desk-level trade-off: the model is sufficiently rich to be useful, but the latency of the exact engine can become restrictive in day-to-day usage.
 
-## Mathematical Framework
+### Mathematical Framework
 
 Under the Heston model, the underlying and its instantaneous variance evolve as:
 
-$$
-dS_t = \mu S_t\,dt + \sqrt{v_t}\,S_t\,dW_t^{(1)}
-$$
+$$dS_t = \mu S_t \, dt + \sqrt{v_t} S_t \, dW_t^{(1)}$$
 
-$$
-dv_t = \kappa(\theta - v_t)\,dt + \sigma \sqrt{v_t}\,dW_t^{(2)}
-$$
+$$dv_t = \kappa(\theta - v_t) \, dt + \sigma \sqrt{v_t} \, dW_t^{(2)}$$
 
-with correlated Brownian motions
+with correlated Brownian motions:
 
-$$
-dW_t^{(1)} dW_t^{(2)} = \rho\,dt.
-$$
+$$dW_t^{(1)} dW_t^{(2)} = \rho \, dt$$
 
 The exact European call price can be recovered semi-analytically by Fourier inversion of the characteristic function:
 
-$$
-C(F,K,T) = F - \frac{\sqrt{FK}}{\pi}\int_{0}^{+\infty}
-\mathrm{Re}\!\left(
-\frac{\phi_H\left(u-\frac{i}{2}\right)}{u^2 + \frac{1}{4}}
-\right)\,du
-$$
+$$C(F,K,T) = F - \frac{\sqrt{FK}}{\pi} \int_0^{+\infty} \operatorname{Re} \left( \frac{\phi_H\left(u - \frac{i}{2}\right)}{u^2 + \frac{1}{4}} \right) du$$
 
-where $\phi_H$ denotes the Heston characteristic function of the log-price.
+where $\phi_H$ denotes the Heston characteristic function of the log-moneyness.
 
-This integral from $0$ to $+\infty$ is precisely the computational bottleneck: inside an `L-BFGS-B` calibration loop, it must be evaluated repeatedly across strikes and iterations. That repeated quadrature cost is what justifies replacing the exact pricing map with a deep-learning surrogate.
+This integral from 0 to $+\infty$ is precisely the computational bottleneck: inside an `L-BFGS-B` calibration loop, it must be evaluated repeatedly across strikes and iterations. That repeated quadrature cost is what justifies replacing the exact pricing map with a deep-learning surrogate.
 
 ## The Deep Learning Solution
 
