@@ -216,3 +216,13 @@ pytest
 ```
 
 The test suite includes a basic arbitrage sanity check on the exact Heston pricer, ensuring that call prices remain above intrinsic value and below the forward.
+
+## Limitations & Future Work
+
+- **Real Market Data Integration:** The current calibration stack is deliberately data-source agnostic: the optimizer only consumes a target curve and does not depend on how that curve is produced. The next logical production step is therefore to replace the synthetic generator with real market inputs, such as listed option closes on the Euro Stoxx 50 or the S&P 500.
+
+- **Market Frictions and Bid-Ask Spread:** Real option prices are noisy and liquidity is not uniform across strikes. A more market-consistent loss function should weight calibration errors by the inverse bid-ask spread or by option Vega, so that liquid strikes, especially around the money, drive the fit while deep out-of-the-money noise has less influence on parameter estimation.
+
+- **Interest Rates and Dividends:** The current implementation uses a pure forward-style setup with zero rates and zero dividends (`r = 0`, `q = 0`). For real equity and index option calibration, both the exact Heston engine and the neural surrogate should be extended to include discounting, dividend yields, and, ideally, a full term structure from the relevant yield curve.
+
+- **Out-of-Distribution Regimes:** The neural network is trained on a bounded parameter domain, for example with initial variance constrained to a narrow range. In stressed markets, such as a volatility shock consistent with a VIX near 60%, the live market may move outside the training region. In that case, the model can extrapolate poorly. A production setup should therefore include dynamic retraining, regime-aware monitoring, or a broader training domain designed to cover stress scenarios explicitly.
