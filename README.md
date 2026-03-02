@@ -74,17 +74,17 @@ This creates a familiar desk-level trade-off: the model is sufficiently rich to 
 
 Under the Heston model, the underlying and its instantaneous variance evolve as:
 
-$$dS_t = \mu S_t \, dt + \sqrt{v_t} S_t \, dW_t^{(1)}$$
+$$dS_t = \mu S_t dt + \sqrt{v_t} S_t dW_t^{(1)}$$
 
-$$dv_t = \kappa(\theta - v_t) \, dt + \sigma \sqrt{v_t} \, dW_t^{(2)}$$
+$$dv_t = \kappa(\theta - v_t) dt + \sigma \sqrt{v_t} dW_t^{(2)}$$
 
 with correlated Brownian motions:
 
-$$dW_t^{(1)} dW_t^{(2)} = \rho \, dt$$
+$$dW_t^{(1)} dW_t^{(2)} = \rho dt$$
 
 The exact European call price can be recovered semi-analytically by Fourier inversion of the characteristic function:
 
-$$C(F,K,T) = F - \frac{\sqrt{FK}}{\pi} \int_0^{+\infty} \operatorname{Re} \left( \frac{\phi_H\left(u - \frac{i}{2}\right)}{u^2 + \frac{1}{4}} \right) du$$
+$$C(F,K,T) = F - \frac{\sqrt{FK}}{\pi} \int_0^{+\infty} \mathrm{Re} \left( \frac{\phi_H\left(u - \frac{i}{2}\right)}{u^2 + \frac{1}{4}} \right) du$$
 
 where $\phi_H$ denotes the Heston characteristic function of the log-moneyness.
 
